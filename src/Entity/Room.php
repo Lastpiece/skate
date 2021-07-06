@@ -2,10 +2,10 @@
 
 namespace App\Entity;
 
-use App\Repository\RoomRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\RoomRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass=RoomRepository::class)
@@ -53,6 +53,7 @@ class Room
     public function __construct()
     {
         $this->comment = new ArrayCollection();
+        $this->state = 0;
     }
 
     public function getId(): ?int
@@ -118,7 +119,7 @@ class Room
         return $this->author;
     }
 
-    public function setAuthor(User $author): self
+    public function setAuthor(?User $author): self
     {
         $this->author = $author;
 
@@ -153,5 +154,9 @@ class Room
         }
 
         return $this;
+    }
+
+    public function __toString(){
+        return $this->name;
     }
 }
