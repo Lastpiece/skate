@@ -9,15 +9,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class RoomController extends AbstractController
 {
-    /**
-     * @Route("/room", name="room")
-     */
-    public function index(): Response
-    {
-        return $this->render('room/index.html.twig', [
-            'controller_name' => 'RoomController',
-        ]);
-    }
 
      /**
      * @Route ("/rooms", name="app_room_showRooms")
@@ -26,7 +17,7 @@ class RoomController extends AbstractController
     {
         $rooms = $roomRepository->findAll();
         
-        return $this->render('showRooms.html.twig', [
+        return $this->render('room/showRooms.html.twig', [
             'rooms' => $rooms,
         ]);
     }
@@ -38,7 +29,7 @@ class RoomController extends AbstractController
     {
         $room = $roomRepository->find($id);
         
-        return $this->render('blog/posts.html.twig', [
+        return $this->render('blog/rooms.html.twig', [
             'room' => $room,
         ]);
     }
