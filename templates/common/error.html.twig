@@ -1,0 +1,15 @@
+{% extends "base.html.twig" %}
+
+{% block title %}{{ error }} - {{ message }}{% endblock %}
+
+{% block body %}
+    <div>
+      <div>
+        <h1>{{error}}</h1>
+        <p>{{message}}</p>
+        <a href="{{ path('app_blog_index') }}">
+            <button type="button">retourner à l'accueil</button>
+        </a>
+      </div>
+    </div>
+{% endblock %}

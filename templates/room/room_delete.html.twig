@@ -3,11 +3,12 @@
 {% block title %}Forums{% endblock %}
 
 {% block body %}
-    <h1>Crée un forum</h1>
+    <h1>Editer un forum</h1>
         
     {{form_start(form)}}
         {{form_widget(form)}}
-        <input type="submit" value="Envoyer">
+        <input type="hidden" name='_token' value="{{ csrf_token('delete' ~ room.id) }}">
+        <input type="submit" value="supprimer">
     {{form_end(form)}}
 
     <a href="{{ path('app_room_showRooms') }}">retourner aux forums</a>

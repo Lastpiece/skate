@@ -30,11 +30,6 @@ class Room
     private $description;
 
     /**
-     * @ORM\Column(type="integer")
-     */
-    private $state;
-
-    /**
      * @ORM\OneToOne(targetEntity=Post::class, mappedBy="roomId", cascade={"persist", "remove"})
      */
     private $postID;
@@ -50,10 +45,16 @@ class Room
      */
     private $comment;
 
+    /**
+     * @ORM\OneToMany(targetEntity=State::class, mappedBy="room_id")
+     */
+    private $states;
+
     public function __construct()
     {
         $this->comment = new ArrayCollection();
         $this->state = 0;
+        $this->states = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -81,18 +82,6 @@ class Room
     public function setDescription(string $description): self
     {
         $this->description = $description;
-
-        return $this;
-    }
-
-    public function getState(): ?int
-    {
-        return $this->state;
-    }
-
-    public function setState(int $state): self
-    {
-        $this->state = $state;
 
         return $this;
     }
@@ -158,5 +147,35 @@ class Room
 
     public function __toString(){
         return $this->name;
+    }
+
+    /**
+     * @return Collection|State[]
+     */
+    public function getStates(): Collection
+    {
+        return $this->states;
+    }
+
+    public function addState(State $state): self
+    {
+        if (!$this->states->contains($state)) {
+            $this->states[] = $state;
+            $state->setRoomId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeState(State $state): self
+    {
+        if ($this->states->removeElement($state)) {
+            // set the owning side to null (unless already changed)
+            if ($state->getRoomId() === $this) {
+                $state->setRoomId(null);
+            }
+        }
+
+        return $this;
     }
 }
