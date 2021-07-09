@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  ven. 02 juil. 2021 à 14:16
+-- Généré le :  ven. 09 juil. 2021 à 12:06
 -- Version du serveur :  10.4.10-MariaDB
 -- Version de PHP :  7.3.12
 
@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS `like` (
   `islike` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_AC6340B3F675F31B` (`author_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -106,9 +106,30 @@ CREATE TABLE IF NOT EXISTS `room` (
   `author_id` int(11) NOT NULL,
   `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `description` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `state` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_729F519BF675F31B` (`author_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `room`
+--
+
+INSERT INTO `room` (`id`, `author_id`, `title`, `description`) VALUES
+(1, 1, 'Comment changer mes trucks', 'wxwjyx');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `state`
+--
+
+DROP TABLE IF EXISTS `state`;
+CREATE TABLE IF NOT EXISTS `state` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `room_id_id` int(11) NOT NULL,
+  `state` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `IDX_A393D2FB35F83FFC` (`room_id_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -121,11 +142,19 @@ DROP TABLE IF EXISTS `user`;
 CREATE TABLE IF NOT EXISTS `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `email` varchar(180) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `roles` longtext COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '(DC2Type:json)',
   `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `roles` longtext COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '(DC2Type:json)',
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_8D93D649E7927C74` (`email`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `user`
+--
+
+INSERT INTO `user` (`id`, `email`, `password`, `roles`) VALUES
+(1, 'a@a.com', '$2y$13$uwz/ivMd5ex/mPuJHuUsVeJF3HCm9JwIOOtyZ1Q7S67QuoZ3RuIOi', ''),
+(2, 'c@c.com', '$2y$13$Q.qyukkJt3qO9Ti3IEw4Xe02G8eJSbc6SsKw9EcOYnaSdwKGDrQFe', '');
 
 --
 -- Contraintes pour les tables déchargées
@@ -157,6 +186,12 @@ ALTER TABLE `post`
 --
 ALTER TABLE `room`
   ADD CONSTRAINT `FK_729F519BF675F31B` FOREIGN KEY (`author_id`) REFERENCES `user` (`id`);
+
+--
+-- Contraintes pour la table `state`
+--
+ALTER TABLE `state`
+  ADD CONSTRAINT `FK_A393D2FB35F83FFC` FOREIGN KEY (`room_id_id`) REFERENCES `room` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
